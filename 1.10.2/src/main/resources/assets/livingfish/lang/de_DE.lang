@@ -1,0 +1,22 @@
+
+//items
+item.fish_bucket_cod.name=Bucket with Dorsch
+item.fish_bucket_salmon.name=Bucket with Lachs
+item.fish_bucket_clownfish.name=Bucket with Clown Fisch
+item.fish_bucket_pufferfish.name=Bucket with Kugel Fisch
+
+item.ironhook.name=Angelhaken
+
+item.fishingrod.name=Angel
+
+
+//blocks
+tile.tank.name=Aquarium
+
+
+//entities
+entity.livingfish.cod.name=Dorsch
+entity.livingfish.salmon.name=Lachs
+entity.livingfish.clownfish.name=Clown Fisch
+entity.livingfish.pufferfish.name=Kugel Fisch
+

@@ -1,0 +1,22 @@
+
+//items
+item.fish_bucket_cod.name=Bucket with Cod
+item.fish_bucket_salmon.name=Bucket with Salmon
+item.fish_bucket_clownfish.name=Bucket with Clown Fish
+item.fish_bucket_pufferfish.name=Bucket with Puffer Fish
+
+item.ironhook.name=Iron Fish Hook
+
+item.fishingrod.name=Fishing Rod
+
+
+//blocks
+tile.tank.name=Aquarium
+
+
+//entities
+entity.livingfish.cod.name=Cod
+entity.livingfish.salmon.name=Salmon
+entity.livingfish.clownfish.name=Clown Fish
+entity.livingfish.pufferfish.name=Puffer Fish
+
