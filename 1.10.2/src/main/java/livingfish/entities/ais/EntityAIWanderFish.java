@@ -7,7 +7,7 @@ import net.minecraft.util.math.Vec3d;
 
 public class EntityAIWanderFish extends EntityAIBase {
 	
-    private final EntityCreature entity;
+    private final EntityCreature creature;
     private double xPosition;
     private double yPosition;
     private double zPosition;
@@ -15,55 +15,47 @@ public class EntityAIWanderFish extends EntityAIBase {
     private int executionChance;
     private boolean mustUpdate;
 
-    public EntityAIWanderFish(EntityCreature creatureIn, double speedIn) {
-        this(creatureIn, speedIn, 120);
+    public EntityAIWanderFish(EntityCreature creature, double speed) {
+        this(creature, speed, 120);
     }
 
-    public EntityAIWanderFish(EntityCreature creatureIn, double speedIn, int chance) {
-        this.entity = creatureIn;
-        this.speed = speedIn;
+    public EntityAIWanderFish(EntityCreature creature, double speed, int chance) {
+        this.creature = creature;
+        this.speed = speed;
         this.executionChance = chance;
         this.setMutexBits(1);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute() {
         if (!this.mustUpdate) {
-            if (this.entity.getAge() >= 100) {
+            if (this.creature.getAge() >= 100) {
                 return false;
             }
 
-            if (this.entity.getRNG().nextInt(this.executionChance) != 0) {
+            if (this.creature.getRNG().nextInt(this.executionChance) != 0) {
                 return false;
             }
         }
 
-        Vec3d vec3d = RandomPositionGenerator.findRandomTarget(this.entity, 10, 7);
+        Vec3d vec3d = RandomPositionGenerator.findRandomTarget(this.creature, 10, 7);
 
         if (vec3d == null) {
             return false;
         } else {
             this.xPosition = vec3d.xCoord;
-            this.yPosition = vec3d.yCoord;
+            this.yPosition = (vec3d.yCoord + this.creature.getEyeHeight());
             this.zPosition = vec3d.zCoord;
             this.mustUpdate = false;
             return true;
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting() {
-        return !this.entity.getNavigator().noPath();
+        return !this.creature.getNavigator().noPath();
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting() {
-        this.entity.getNavigator().tryMoveToXYZ(this.xPosition, this.yPosition, this.zPosition, this.speed);
+        this.creature.getNavigator().tryMoveToXYZ(this.xPosition, this.yPosition, this.zPosition, this.speed);
     }
+    
 }

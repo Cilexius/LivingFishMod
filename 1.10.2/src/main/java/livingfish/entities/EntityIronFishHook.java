@@ -2,8 +2,11 @@ package livingfish.entities;
 
 import java.util.List;
 
+import io.netty.buffer.Unpooled;
 import livingfish.init.ModItems;
+import livingfish.init.ModNetwork;
 import livingfish.items.Fishingrod;
+import livingfish.network.SToCMessage;
 import livingfish.utils.FishUtils;
 import livingfish.utils.MathUtils;
 import net.minecraft.block.Block;
@@ -11,12 +14,13 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -68,18 +72,17 @@ public class EntityIronFishHook extends EntityFishHook {
     }
     
     @SideOnly(Side.CLIENT)
-    public EntityIronFishHook(World world, double x, double y, double z, EntityPlayer angler)
-    {
+    public EntityIronFishHook(World world, EntityPlayer angler)  {
         this(world);
-        this.setPosition(x, y, z);
+        BlockPos pos = angler.getPosition();
+        this.setPosition(pos.getX(), pos.getY(), pos.getZ());
         this.ignoreFrustumCheck = true;
         this.angler = angler;
         angler.fishEntity = this;
     }
     
     @SideOnly(Side.CLIENT)
-    public boolean isInRangeToRenderDist(double distance)
-    {
+    public boolean isInRangeToRenderDist(double distance) {
         double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
 
         if (Double.isNaN(d0))
@@ -95,8 +98,7 @@ public class EntityIronFishHook extends EntityFishHook {
      * Set the position and rotation values directly without any clamping.
      */
     @SideOnly(Side.CLIENT)
-    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport)
-    {
+    public void setPositionAndRotationDirect(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean teleport) {
         this.fishX = x;
         this.fishY = y;
         this.fishZ = z;
@@ -113,8 +115,7 @@ public class EntityIronFishHook extends EntityFishHook {
      * Updates the velocity of the entity to a new value.
      */
     @SideOnly(Side.CLIENT)
-    public void setVelocity(double x, double y, double z)
-    {
+    public void setVelocity(double x, double y, double z) {
         this.motionX = x;
         this.motionY = y;
         this.motionZ = z;
@@ -166,24 +167,24 @@ public class EntityIronFishHook extends EntityFishHook {
         super.notifyDataManagerChange(key);
     }
     
-    public void handleHookCasting(double p_146035_1_, double p_146035_3_, double p_146035_5_, float p_146035_7_, float p_146035_8_)
+    public void handleHookCasting(double motionX, double motionY, double motionZ, float p_146035_7_, float p_146035_8_)
     {
-        float f = MathHelper.sqrt_double(p_146035_1_ * p_146035_1_ + p_146035_3_ * p_146035_3_ + p_146035_5_ * p_146035_5_);
-        p_146035_1_ = p_146035_1_ / (double)f;
-        p_146035_3_ = p_146035_3_ / (double)f;
-        p_146035_5_ = p_146035_5_ / (double)f;
-        p_146035_1_ = p_146035_1_ + this.rand.nextGaussian() * 0.007499999832361937D * (double)p_146035_8_;
-        p_146035_3_ = p_146035_3_ + this.rand.nextGaussian() * 0.007499999832361937D * (double)p_146035_8_;
-        p_146035_5_ = p_146035_5_ + this.rand.nextGaussian() * 0.007499999832361937D * (double)p_146035_8_;
-        p_146035_1_ = p_146035_1_ * (double)p_146035_7_;
-        p_146035_3_ = p_146035_3_ * (double)p_146035_7_;
-        p_146035_5_ = p_146035_5_ * (double)p_146035_7_;
-        this.motionX = p_146035_1_;
-        this.motionY = p_146035_3_;
-        this.motionZ = p_146035_5_;
-        float f1 = MathHelper.sqrt_double(p_146035_1_ * p_146035_1_ + p_146035_5_ * p_146035_5_);
-        this.rotationYaw = (float)(MathHelper.atan2(p_146035_1_, p_146035_5_) * (180D / Math.PI));
-        this.rotationPitch = (float)(MathHelper.atan2(p_146035_3_, (double)f1) * (180D / Math.PI));
+        float f = MathHelper.sqrt_double(motionX * motionX + motionY * motionY + motionZ * motionZ);
+        motionX = motionX / (double)f;
+        motionY = motionY / (double)f;
+        motionZ = motionZ / (double)f;
+        motionX = motionX + this.rand.nextGaussian() * 0.007499999832361937D * (double)p_146035_8_;
+        motionY = motionY + this.rand.nextGaussian() * 0.007499999832361937D * (double)p_146035_8_;
+        motionZ = motionZ + this.rand.nextGaussian() * 0.007499999832361937D * (double)p_146035_8_;
+        motionX = motionX * (double)p_146035_7_;
+        motionY = motionY * (double)p_146035_7_;
+        motionZ = motionZ * (double)p_146035_7_;
+        this.motionX = motionX;
+        this.motionY = motionY;
+        this.motionZ = motionZ;
+        float f1 = MathHelper.sqrt_double(motionX * motionX + motionZ * motionZ);
+        this.rotationYaw = (float)(MathHelper.atan2(motionX, motionZ) * (180D / Math.PI));
+        this.rotationPitch = (float)(MathHelper.atan2(motionY, (double)f1) * (180D / Math.PI));
         this.prevRotationYaw = this.rotationYaw;
         this.prevRotationPitch = this.rotationPitch;
         this.ticksInGround = 0;
@@ -196,8 +197,7 @@ public class EntityIronFishHook extends EntityFishHook {
         {
             int i = ((Integer)this.getDataManager().get(DATA_HOOKED_ENTITY)).intValue();
 
-            if (i > 0 && this.caughtEntity == null)
-            {
+            if (i > 0 && this.caughtEntity == null) {
                 this.caughtEntity = this.worldObj.getEntityByID(i - 1);
             }
         }
@@ -207,8 +207,8 @@ public class EntityIronFishHook extends EntityFishHook {
         		this.setDead();
         		return;
         	}
-            ItemStack itemstack = this.angler.getHeldItemMainhand();
-            if (this.angler.isDead || !this.angler.isEntityAlive() || itemstack == null || itemstack.getItem() != ModItems.fishingrod || this.getDistanceSqToEntity(this.angler) > 1024.0D) {
+            ItemStack stack = this.angler.getHeldItemMainhand();
+            if (this.angler.isDead || !this.angler.isEntityAlive() || stack == null || stack.getItem() != ModItems.fishingrod || this.getDistanceSqToEntity(this.angler) > 1024.0D) {
                 this.setDead();
                 this.angler.fishEntity = null;
                 return;
@@ -243,11 +243,7 @@ public class EntityIronFishHook extends EntityFishHook {
         } else {
             this.hookBehaviour();
         }
-        
-        
 
-        //this.swimmingBehavior();
-        //this.inAirBehavior();
     	this.catchFish();
 
     	this.onEntityUpdate();
@@ -267,22 +263,6 @@ public class EntityIronFishHook extends EntityFishHook {
 
     protected boolean canBeHooked(Entity entity) {
         return entity.canBeCollidedWith() || entity instanceof EntityItem;
-    }
-    
-    public void swimmingBehavior() {
-    	Block block = this.worldObj.getBlockState(this.getPosition()).getBlock();
-    	if (block == Blocks.WATER) {
-    		this.setPosition(this.posX, this.posY + 0.02D, this.posZ);
-    		System.out.println("swimming");
-    	}
-    }
-    
-    public void inAirBehavior() {
-    	Block block = this.worldObj.getBlockState(this.getPosition()).getBlock();
-    	if (block == Blocks.AIR) {
-    		this.setPosition(this.posX, this.posY - 0.01D, this.posZ);
-    		System.out.println("flying");
-    	}
     }
     
     public void hookBehaviour() {
@@ -483,14 +463,13 @@ public class EntityIronFishHook extends EntityFishHook {
     }
 
     public int handleIronHookRetraction(double modifier) {    	
-    	
         if (this.worldObj.isRemote) {
-            return 0;
+        	return 0;
         } else {
         	
         	if (this.fishOnHook != null) {
             	
-            	double distanceSq = MathUtils.getDistanceSqEntitytoEntity(this.angler, this.fishOnHook);
+            	double distanceSq = MathUtils.getDistanceSqEntitytoEntity(this.angler, this.fishOnHook, false);
             	if (distanceSq > 2.0D) {
             		MathUtils.pullEntitytoEntity(this.angler, modifier, this.fishOnHook);
             		return 0;
@@ -523,10 +502,16 @@ public class EntityIronFishHook extends EntityFishHook {
                 }
             }
             
+            if (this.angler instanceof EntityPlayerMP) {
+                PacketBuffer out = new PacketBuffer(Unpooled.buffer());
+                out.writeInt(1);
+                SToCMessage message = new SToCMessage(out);
+                ModNetwork.networkWrapper.sendTo(message, (EntityPlayerMP) this.angler);
+            }
+            
             this.setDead();
             this.angler.fishEntity = null;
             this.fishOnHook = null;
-            this.hasBait = false;
             return i;
         }
     }

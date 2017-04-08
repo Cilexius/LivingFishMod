@@ -39,10 +39,10 @@ public class RenderEntityFish extends RenderLiving {
 	}
 	
 	protected float handleRotationFloat(EntityFish fish, float partialTick) {
-		if (fish.isInWater()) {
-			return 0.0F;
+		if (!fish.isInWater() &&!fish.onHook && fish.onGround) {
+			return 1.0F;
 		}
-		return 1.0F;
+		return 0.0F;
 	}
 	
     public void doRender(EntityLiving fish, double x, double y, double z, float entityYaw, float partialTicks) {

@@ -1,5 +1,8 @@
 package livingfish.utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import livingfish.entities.EntityClownFish;
 import livingfish.entities.EntityCod;
 import livingfish.entities.EntityFish;
@@ -8,6 +11,8 @@ import livingfish.entities.EntitySalmon;
 import livingfish.init.ModConfigs;
 import livingfish.init.ModItems;
 import livingfish.items.ItemFishBucket;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -69,6 +74,18 @@ public class FishUtils {
 			weight = ModConfigs.codWeight;
 		}
 		return weight;
+	}
+	
+	public static boolean isBait(Item item) {
+		List<Item> baits = new ArrayList<Item>();
+		baits.add(Items.WHEAT_SEEDS);
+		baits.add(Items.MELON_SEEDS);
+		baits.add(Items.PUMPKIN_SEEDS);
+		baits.add(Items.BEETROOT_SEEDS);
+		if (baits.contains(item)) {
+			return true;
+		}
+		return false;
 	}
 	
 }

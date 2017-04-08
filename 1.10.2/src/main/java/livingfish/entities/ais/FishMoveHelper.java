@@ -1,6 +1,9 @@
 package livingfish.entities.ais;
 
+import livingfish.blocks.BlockTank;
 import livingfish.entities.EntityFish;
+import livingfish.utils.MathUtils;
+import livingfish.utils.MiscUtils;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityMoveHelper;
 import net.minecraft.util.math.MathHelper;
@@ -16,7 +19,7 @@ public class FishMoveHelper extends EntityMoveHelper {
     public void onUpdateMoveHelper() {
         if (this.action == EntityMoveHelper.Action.MOVE_TO && !this.fish.getNavigator().noPath()) {
             double xDisplacement = this.posX - this.fish.posX;
-            double yDisplacement = this.posY - this.fish.posY;
+            double yDisplacement = this.posY - (this.fish.posY + this.fish.getEyeHeight());
             double zDisplacement = this.posZ - this.fish.posZ;
             double squareDisplacement = MathHelper.sqrt_double(xDisplacement * xDisplacement + yDisplacement * yDisplacement + zDisplacement * zDisplacement);
 
@@ -35,7 +38,11 @@ public class FishMoveHelper extends EntityMoveHelper {
             this.fish.motionX += d4 * d5;
             this.fish.motionZ += d4 * d6;
             
-            d4 = Math.sin((double)(this.fish.ticksExisted + this.fish.getEntityId()) * 0.75D) * 0.05D;
+            if (this.fish.isCollidedHorizontally) {
+                this.fish.motionY += 0.07D;
+            }
+
+            d4 = Math.sin((double)(this.fish.ticksExisted)) * 0.05D;
             this.fish.motionY += d4 * (d6 + d5) * 0.25D;
             this.fish.motionY += (double)this.fish.getAIMoveSpeed() * yDisplacement * 0.1D;
         } else {

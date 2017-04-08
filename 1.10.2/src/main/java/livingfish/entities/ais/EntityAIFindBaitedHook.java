@@ -48,6 +48,8 @@ public class EntityAIFindBaitedHook extends EntityAIBase {
 		for (EntityIronFishHook hook : list) {
     		if ((hook.isInWater()) && (hook.hasBait ||  this.rand.nextInt(20) == 0)) {
     			if (this.fish.getDistanceSqToEntity(hook) < 1.0D && hook.fishOnHook == null) {
+        			this.fish.onHook = true;
+        			this.fish.angler = hook.angler;
         			hook.setFishOnHook(this.fish);
         			hook.fishingrod.removeBait = true;
     			}

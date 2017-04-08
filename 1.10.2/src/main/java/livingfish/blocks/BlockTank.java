@@ -1,7 +1,7 @@
 package livingfish.blocks;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -15,7 +15,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -23,14 +22,13 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockTank extends Block {
-
+	
 	public static final PropertyBool NORTH = PropertyBool.create("north");
 	public static final PropertyBool EAST = PropertyBool.create("east");
 	public static final PropertyBool SOUTH = PropertyBool.create("south");
@@ -42,21 +40,21 @@ public class BlockTank extends Block {
     protected static final AxisAlignedBB AABB_WALL_SOUTH = new AxisAlignedBB(0.0D, 0.0D, 0.875D, 1.0D, 1.0D, 1.0D);
     protected static final AxisAlignedBB AABB_WALL_EAST = new AxisAlignedBB(0.875D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
     protected static final AxisAlignedBB AABB_WALL_WEST = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 0.125D, 1.0D, 1.0D);
-    protected static final AxisAlignedBB AABB_WALL_DOWN = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.1D, 1.0D);
+    protected static final AxisAlignedBB AABB_WALL_DOWN = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, -0.1D, 1.0D);
     
     public static final AxisAlignedBB BOUNDINGBOX_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
-	  
+    
 	public BlockTank() {
 		super(Material.WATER);
 		this.setHardness(0.3F);
 		this.setSoundType(SoundType.GLASS);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BlockLiquid.LEVEL, Integer.valueOf(0))
-        		.withProperty(NORTH, Boolean.valueOf(false))
-        		.withProperty(EAST, Boolean.valueOf(false))
-        		.withProperty(SOUTH, Boolean.valueOf(false))
-        		.withProperty(WEST, Boolean.valueOf(false))
-        		.withProperty(DOWN, Boolean.valueOf(false))
-        		.withProperty(UP, Boolean.valueOf(false)));
+        													.withProperty(NORTH, Boolean.valueOf(false))
+        													.withProperty(EAST, Boolean.valueOf(false))
+        													.withProperty(SOUTH, Boolean.valueOf(false))
+        													.withProperty(WEST, Boolean.valueOf(false))
+        													.withProperty(DOWN, Boolean.valueOf(false))
+        													.withProperty(UP, Boolean.valueOf(false)));
 		this.setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 	
@@ -77,12 +75,23 @@ public class BlockTank extends Block {
         return false;
     }
     
-    public boolean isReplaceable(IBlockAccess worldIn, BlockPos pos) {
-        return false;
+    public boolean canCollideCheck(IBlockState state, boolean hitIfLiquid) {
+        return true;
     }
     
-    public Vec3d modifyAcceleration(World worldIn, BlockPos pos, Entity entityIn, Vec3d motion) {
-        return motion;
+    @Override
+    @Nullable
+    protected RayTraceResult rayTrace(BlockPos pos, Vec3d start, Vec3d end, AxisAlignedBB boundingBox)
+    {
+        Vec3d vec3d = start.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+        Vec3d vec3d1 = end.subtract((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+        RayTraceResult rayTrace = boundingBox.calculateIntercept(vec3d, vec3d1);    
+        return rayTrace == null ? null : new RayTraceResult(rayTrace.hitVec.addVector((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), rayTrace.sideHit, pos);
+    }
+
+    
+    public boolean isReplaceable(IBlockAccess world, BlockPos pos) {
+        return false;
     }
     
     protected BlockStateContainer createBlockState() {
@@ -93,32 +102,32 @@ public class BlockTank extends Block {
         return 0;
     }
     
-    public void addCollisionBoxToList(IBlockState blockState, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn) {
-    	blockState = this.getActualState(blockState, world, pos);
+    public void addCollisionBoxToList(IBlockState state, World world, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn) {
+    	state = this.getActualState(state, world, pos);
     	
-        if (!((Boolean)blockState.getValue(NORTH)).booleanValue()) {
+        if (!((Boolean)state.getValue(NORTH)).booleanValue()) {
             addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_WALL_NORTH);
         }
 
-        if (!((Boolean)blockState.getValue(SOUTH)).booleanValue()) {
+        if (!((Boolean)state.getValue(SOUTH)).booleanValue()) {
             addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_WALL_SOUTH);
         }
 
-        if (!((Boolean)blockState.getValue(EAST)).booleanValue()) {
+        if (!((Boolean)state.getValue(EAST)).booleanValue()) {
             addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_WALL_EAST);
         }
 
-        if (!((Boolean)blockState.getValue(WEST)).booleanValue()) {
+        if (!((Boolean)state.getValue(WEST)).booleanValue()) {
             addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_WALL_WEST);
         }
         
-        if (!((Boolean)blockState.getValue(DOWN)).booleanValue()) {
+        if (!((Boolean)state.getValue(DOWN)).booleanValue()) {
             addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_WALL_DOWN);
         }
     }
     
-    public IBlockState getActualState(IBlockState blockState, IBlockAccess world, BlockPos pos) {
-    	return blockState.withProperty(NORTH, this.canTankConnectTo(world, pos, EnumFacing.NORTH))
+    public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+    	return state.withProperty(NORTH, this.canTankConnectTo(world, pos, EnumFacing.NORTH))
     			.withProperty(EAST, this.canTankConnectTo(world, pos, EnumFacing.EAST))
     			.withProperty(SOUTH, this.canTankConnectTo(world, pos, EnumFacing.SOUTH))
     			.withProperty(WEST, this.canTankConnectTo(world, pos, EnumFacing.WEST))
@@ -134,7 +143,8 @@ public class BlockTank extends Block {
     }
     
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return BOUNDINGBOX_AABB;
+    	state = this.getActualState(state, source, pos);
+    	return BOUNDINGBOX_AABB;
     }
     
     public boolean isBlockSolid(IBlockAccess world, BlockPos pos, EnumFacing side) {

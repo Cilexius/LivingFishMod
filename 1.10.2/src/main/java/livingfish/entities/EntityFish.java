@@ -1,17 +1,16 @@
 package livingfish.entities;
 
-import java.util.Set;
-
 import javax.annotation.Nullable;
-
-import com.google.common.collect.Sets;
 
 import livingfish.entities.ais.EntityAIFindBaitedHook;
 import livingfish.entities.ais.EntityAIFindBreedEntityItem;
 import livingfish.entities.ais.EntityAIFishAvoidEntity;
 import livingfish.entities.ais.EntityAIWanderFish;
 import livingfish.entities.ais.FishMoveHelper;
+import livingfish.utils.FishUtils;
 import livingfish.utils.ItemUtils;
+import livingfish.utils.MathUtils;
+import livingfish.utils.MiscUtils;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -21,9 +20,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -39,10 +36,10 @@ import net.minecraft.world.World;
 
 public abstract class EntityFish extends EntityAnimal {
 
-    private static final Set<Item> BREEDING_ITEMS = Sets.newHashSet(new Item[] {Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS});
     private static final DataParameter<Byte> STATUS = EntityDataManager.<Byte>createKey(EntityGuardian.class, DataSerializers.BYTE);
-	public float rotationPitchToSet;
 	public float moveVertical;
+	public EntityPlayer angler;
+	public boolean onHook;
 	
 	public EntityFish(World world) {
 		super(world);
@@ -112,8 +109,8 @@ public abstract class EntityFish extends EntityAnimal {
     	}
     }
     
-    public boolean isBreedingItem(@Nullable ItemStack itemStack) {
-        return itemStack != null && BREEDING_ITEMS.contains(itemStack.getItem());
+    public boolean isBreedingItem(@Nullable ItemStack stack) {
+        return stack != null && FishUtils.isBait(stack.getItem());
     }
 
     protected PathNavigate getNewNavigator(World world) {
@@ -141,7 +138,7 @@ public abstract class EntityFish extends EntityAnimal {
     }
     
     protected boolean canDespawn() {
-        return true;
+        return !MiscUtils.isTank(this.worldObj, this.getPosition());
     }
     
     protected void entityInit() {
@@ -232,6 +229,7 @@ public abstract class EntityFish extends EntityAnimal {
         return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty();
     }
     
+    @Override
     public void moveEntityWithHeading(float strafe, float forward) {
         if (this.isServerWorld()) {
             if (this.isInWater()) {
@@ -241,6 +239,13 @@ public abstract class EntityFish extends EntityAnimal {
                 this.motionY *= 0.800000011920929D;
                 this.motionZ *= 0.800000011920929D;
             } else {
+            	if (!this.onGround && this.onHook) {
+            		if(MathUtils.getDistanceSqEntitytoEntity(this, this.angler, true) <= 2.0D)
+            		this.motionX = 0;
+            		this.motionY = 0;
+            		this.motionZ = 0;
+            		this.rotationPitch = 90;
+            	}
                 super.moveEntityWithHeading(strafe, forward);
             }
         } else {
