@@ -1,0 +1,17 @@
+{
+    "textures": {
+        "particle": "blocks/glass",
+        "glass": "blocks/glass",
+        "water": "blocks/water_still"
+    },
+    "elements": [
+        {   "_comment": "down",
+            "from": [ 0, 0, 0 ],
+            "to": [ 16, 1, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0,  16, 16 ], "texture": "#glass", "cullface": "down" },
+                "up":    { "uv": [ 0, 0,  16, 16 ], "texture": "#glass" }
+            }
+        }
+    ]
+}

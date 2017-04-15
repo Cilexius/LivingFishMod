@@ -1,0 +1,9 @@
+{
+    "textures": {
+        "particle": "blocks/glass",
+        "glass": "blocks/glass",
+        "water": "blocks/water_still"
+    },
+    "elements": [
+    ]
+}
