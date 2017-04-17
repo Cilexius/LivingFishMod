@@ -132,7 +132,7 @@ public class BlockTank extends Block {
     public boolean canTankConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
     	BlockPos neighbourPos = pos.offset(facing);
     	IBlockState neighbourState = world.getBlockState(neighbourPos);
-    	return neighbourState.getBlock() == this || neighbourState.getBlock() == ModBlocks.tank_water;
+    	return neighbourState.getBlock() == this;
     }
     
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {

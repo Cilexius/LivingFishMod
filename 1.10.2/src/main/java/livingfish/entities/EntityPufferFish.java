@@ -77,8 +77,8 @@ public class EntityPufferFish extends EntityFish {
     public void onLivingUpdate() {
     	super.onLivingUpdate();
     	if (this.worldObj.isRemote) {
-			if (this.getRNG().nextInt(10000) == 0) {
-    			this.scaredTime += 200;
+			if (this.getRNG().nextInt(ModConfigs.pufferfishRandomScared) == 0) {
+    			this.scaredTime += (200 + ModConfigs.pufferfishAddExtraScaredTime);
     		}
     		if (this.scaredTime > 0) {
     			this.scaredTime -= 1;
@@ -95,7 +95,7 @@ public class EntityPufferFish extends EntityFish {
 	}
     
     public boolean attackEntityFrom(DamageSource source, float amount) {
-    	this.scaredTime = 200;
+    	this.scaredTime = (200 + ModConfigs.pufferfishAddExtraScaredTime);
     	return super.attackEntityFrom(source, amount);
 	}
     

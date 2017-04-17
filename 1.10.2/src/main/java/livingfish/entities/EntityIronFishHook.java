@@ -291,22 +291,21 @@ public class EntityIronFishHook extends EntityFishHook {
     }
 
     protected boolean canBeHooked(Entity entity) {
-        return (!(entity instanceof EntityFish)) && (entity.canBeCollidedWith() || entity instanceof EntityItem);
+    	Entity onHook = this.fishOnHook;
+        return (!(entity instanceof EntityFish) || entity == onHook) && (entity.canBeCollidedWith() || entity instanceof EntityItem);
     }
     
     public void hookBehaviour() {
 
         
-            if (this.inGround)
-            {
+            if (this.inGround) {
             	this.vanillaOnGroundBehavior();
             } else {
                 ++this.ticksInAir;
             }
             
 
-            if (!this.worldObj.isRemote)
-            {
+            if (!this.worldObj.isRemote) {
                 this.vanillaCollition();
             }
             

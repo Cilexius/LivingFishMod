@@ -30,11 +30,15 @@ public class ModConfigs {
 	public static int pufferfishWeight;
 	public static int pufferfishMin;
 	public static int pufferfishMax;
+	public static int pufferfishAddExtraScaredTime;
+	public static int pufferfishRandomScared;
 	
 	public static int fishbonesChance;
 	
 	public static boolean dropTank;
 	public static boolean looseWaterOnDestruction;
+	
+	public static boolean changeHookRecipe;
 	
 	public void register(FMLPreInitializationEvent event) {
 		
@@ -48,12 +52,13 @@ public class ModConfigs {
     	config.load();
     	
     	this.generalSpawning(config);
-    	this.cod(config, commentWeight, commentHealth, commentMin, commentMax);
-    	this.salmon(config, commentWeight, commentHealth, commentMin, commentMax);
-    	this.clownfish(config, commentWeight, commentHealth, commentMin, commentMax);
-    	this.pufferfish(config, commentWeight, commentHealth, commentMin, commentMax);
+    	this.cod(config, commentHealth, commentWeight, commentMin, commentMax);
+    	this.salmon(config, commentHealth, commentWeight, commentMin, commentMax);
+    	this.clownfish(config, commentHealth, commentWeight, commentMin, commentMax);
+    	this.pufferfish(config, commentHealth, commentWeight, commentMin, commentMax);
     	this.fishing(config);
     	this.tankConfig(config);
+    	this.recipeConfig(config);
     	
     	config.save();
 	}
@@ -92,6 +97,8 @@ public class ModConfigs {
 		pufferfishWeight = config.getInt("pufferfishWeight", "pufferfish", 6, 0, 1000, commentWeight);
 		pufferfishMin = config.getInt("pufferFishMin", "pufferfish", 1, 1, 20, commentMin);
 		pufferfishMax = config.getInt("pufferFishMax", "pufferfish", 2, 1, 20, commentMax);
+		pufferfishAddExtraScaredTime = config.getInt("pufferfishAddExtraScaredTime", "pufferfish", 0, 1, 10000, "Add extra time to the scaredtime of the Pufferifsh.  (Value of 20 = 1 sec)");
+		pufferfishRandomScared = config.getInt("pufferfishRandomScared", "pufferfish", 10000, 1, 1000000, "Change the probability, with which the Pufferfish will randomly inflate itself. Greater values will make random inflation less probable.  (Value of 20 = 1 sec)");
 	}
 	
 	public static void fishing(Configuration config) {
@@ -101,6 +108,10 @@ public class ModConfigs {
 	public static void tankConfig(Configuration config) {
 		dropTank = config.getBoolean("dropAquarium", "aquarium", false, "Set this to true, if you want the aquarium to be droped instead of being destroyed");
 		looseWaterOnDestruction = config.getBoolean("looseWaterOnDestruction", "aquarium", true, "Set this to false, if you want the aquarium not to loose its content");
+	}
+	
+	public static void recipeConfig(Configuration config) {
+		changeHookRecipe = config.getBoolean("changeHookRecipe", "recipes", false, "Set this to true to change the Recipe for the iron Hook. => The recipe will change to TWO iron ingots and FOUR hooks.");
 	}
 
 }
