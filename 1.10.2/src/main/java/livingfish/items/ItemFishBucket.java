@@ -9,6 +9,7 @@ import livingfish.init.ModBlocks;
 import livingfish.utils.FishUtils;
 import livingfish.utils.BlockUtils;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -137,7 +138,7 @@ public class ItemFishBucket extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
         if (stack.hasTagCompound() && this.isChildBucket(stack)) {
-        	list.add("Child Bucket");
+        	list.add(I18n.format("livingfish.childbucket"));
         }
     }
     

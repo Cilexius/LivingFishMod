@@ -1,0 +1,31 @@
+﻿//CreativeTab
+itemGroup.fish=Living Fish Tab
+
+
+//items
+item.fish_bucket_cod.name=Balde com Peixe
+item.fish_bucket_salmon.name=Balde com Salmão
+item.fish_bucket_clownfish.name=Balde com Peixe-Palhaço
+item.fish_bucket_pufferfish.name=Balde com Baiacu
+livingfish.childbucket=Baby Fish
+
+item.fishbones.name=Ossos de Peixe
+
+item.ironhook.name=Anzol de Ferro
+
+item.fishingrod.name=Vara de Pescar
+livingfish.fishingrod.sneakrightclick=Sneak + Right Click to set Bait
+livingfish.fishingrod.needsbait=Needs Bait in second hand to work
+livingfish.fishingrod.hasbait=Has Bait
+
+
+//blocks
+tile.tank.name=Aquário Vazio
+tile.tank_water.name=Aquário
+
+
+//entities
+entity.livingfish.cod.name=Peixe
+entity.livingfish.salmon.name=Salmão
+entity.livingfish.clownfish.name=Peixe-Palhaço
+entity.livingfish.pufferfish.name=Baiacu

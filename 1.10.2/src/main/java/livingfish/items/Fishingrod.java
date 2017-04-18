@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import livingfish.entities.EntityIronFishHook;
 import livingfish.init.ModSounds;
 import livingfish.utils.FishUtils;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -110,13 +111,13 @@ public class Fishingrod extends ItemFishingRod {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean advanced) {
         if (stack.hasTagCompound() && this.hasBait(stack)) {
-        	list.add(TextFormatting.BLUE + "Has Bait");
+        	list.add(TextFormatting.BLUE + I18n.format("livingfish.fishingrod.hasbait"));
         } else {
-        	list.add(TextFormatting.BLUE + "Sneak + Right Click to set Bait");
+        	list.add(TextFormatting.BLUE + I18n.format("livingfish.fishingrod.sneakrightclick"));
         	if (player.getHeldItemOffhand() == null) {
-        		list.add(TextFormatting.ITALIC + "Needs Bait in Off Hand to work");
-        	} else  if (!(FishUtils.isBait(player.getHeldItemOffhand().getItem()))) {
-        		list.add(TextFormatting.ITALIC + "Needs Bait in Off Hand to work");
+        		list.add(TextFormatting.ITALIC + I18n.format("livingfish.fishingrod.needsbait"));
+        	} else if (!(FishUtils.isBait(player.getHeldItemOffhand().getItem()))) {
+        		list.add(TextFormatting.ITALIC + I18n.format("livingfish.fishingrod.needsbait"));
         	}
         }
     }

@@ -147,6 +147,10 @@ public abstract class EntityFish extends EntityAnimal {
         return !BlockUtils.isTank_Water(this.worldObj, this.getPosition());
     }
     
+    public boolean isNotColliding() {
+        return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty();
+    }
+    
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(STATUS, Byte.valueOf((byte)0));
@@ -223,7 +227,12 @@ public abstract class EntityFish extends EntityAnimal {
             this.rotationYaw = this.rand.nextFloat() * 360.0F;
         }
         
-        if (!this.worldObj.isRemote) {
+        this.takeFoodItem();
+        
+    }
+    
+    public void takeFoodItem() {
+    	if (!this.worldObj.isRemote) {
             for (EntityItem item : this.worldObj.getEntitiesWithinAABB(EntityItem.class, this.getEntityBoundingBox().expand(0.8D, 0.8D, 0.8D))) {
                 if (!item.isDead && item.getEntityItem() != null && !item.cannotPickup() && this.isBreedingItem(item.getEntityItem())) {
                 	if (this.getGrowingAge() == 0 && !this.isInLove()) {
@@ -238,10 +247,6 @@ public abstract class EntityFish extends EntityAnimal {
                 }
             }   
         }
-    }
-    
-    public boolean isNotColliding() {
-        return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty();
     }
     
     @Override

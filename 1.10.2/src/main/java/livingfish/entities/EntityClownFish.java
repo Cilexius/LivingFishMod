@@ -19,7 +19,7 @@ public class EntityClownFish extends EntityFish {
 	
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.6D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.67D);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(ModConfigs.clownfishMaxHealth);
     }
 

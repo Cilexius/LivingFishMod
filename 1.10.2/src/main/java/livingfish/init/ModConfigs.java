@@ -107,7 +107,7 @@ public class ModConfigs {
 	
 	public static void tankConfig(Configuration config) {
 		dropTank = config.getBoolean("dropAquarium", "aquarium", false, "Set this to true, if you want the aquarium to be droped instead of being destroyed");
-		looseWaterOnDestruction = config.getBoolean("looseWaterOnDestruction", "aquarium", true, "Set this to false, if you want the aquarium not to loose its content");
+		looseWaterOnDestruction = config.getBoolean("looseWaterOnDestruction", "aquarium", false, "Set this to false, if you want the aquarium not to loose its content");
 	}
 	
 	public static void recipeConfig(Configuration config) {

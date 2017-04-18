@@ -26,7 +26,7 @@ public class EntityPufferFish extends EntityFish {
 	
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.64D);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(ModConfigs.pufferfishMaxHealth);
     }
 

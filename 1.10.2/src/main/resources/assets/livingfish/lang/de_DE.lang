@@ -1,4 +1,4 @@
-
+﻿
 //CreativeTab
 itemGroup.fish=Living Fish Tab
 
@@ -8,15 +8,20 @@ item.fish_bucket_cod.name=Eimer mit Dorsch
 item.fish_bucket_salmon.name=Eimer mit Lachs
 item.fish_bucket_clownfish.name=Eimer mit Clown Fisch
 item.fish_bucket_pufferfish.name=Eimer mit Kugel Fisch
+item.fish_bucket_pufferfish.name=Bucket with Puffer Fish
+livingfish.childbucket=Babyfisch
 
 item.fishbones.name=Fisch Gräten
 item.ironhook.name=Angelhaken
 
 item.fishingrod.name=Angel
+livingfish.fishingrod.sneakrightclick=Umschalt + Rechtsklick um Köder aufzusetzen 
+livingfish.fishingrod.needsbait=Braucht Köder in der Zweithand
+livingfish.fishingrod.hasbait=Hat Köder
 
 
 //blocks
-tile.tank.name=leeres Aquarium
+tile.tank.name=Leeres Aquarium
 tile.tank_water.name=Aquarium
 
 

@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 
+import livingfish.utils.BlockUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
@@ -83,7 +84,8 @@ public class EntityAIFishAvoidEntity<T extends Entity> extends EntityAIBase {
     }
 
     public void startExecuting() {
-        this.entityPathNavigate.setPath(this.entityPathEntity, this.farSpeed);
+        float speedModifier = BlockUtils.isTank_Water(this.entity.worldObj, this.entity.getPosition()) ? 0.7F : 1.0F;
+        this.entityPathNavigate.setPath(this.entityPathEntity, (this.farSpeed * speedModifier));
     }
 
     public void resetTask() {

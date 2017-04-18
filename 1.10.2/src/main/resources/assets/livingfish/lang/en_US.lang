@@ -8,15 +8,19 @@ item.fish_bucket_cod.name=Bucket with Cod
 item.fish_bucket_salmon.name=Bucket with Salmon
 item.fish_bucket_clownfish.name=Bucket with Clown Fish
 item.fish_bucket_pufferfish.name=Bucket with Puffer Fish
+livingfish.childbucket=Baby Fish
 
 item.fishbones.name=Fish Bones
 item.ironhook.name=Iron Fish Hook
 
 item.fishingrod.name=Fishing Rod
+livingfish.fishingrod.sneakrightclick=Sneak + Right Click to set Bait
+livingfish.fishingrod.needsbait=Needs Bait in second hand to work
+livingfish.fishingrod.hasbait=Has Bait
 
 
 //blocks
-tile.tank.name=empty Aquarium
+tile.tank.name=Empty Aquarium
 tile.tank_water.name=Aquarium
 
 
