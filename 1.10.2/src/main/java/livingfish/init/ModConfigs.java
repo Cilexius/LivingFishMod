@@ -39,6 +39,7 @@ public class ModConfigs {
 	public static boolean looseWaterOnDestruction;
 	
 	public static boolean changeHookRecipe;
+	public static boolean sneakClickHookRecipe;
 	
 	public void register(FMLPreInitializationEvent event) {
 		
@@ -111,7 +112,8 @@ public class ModConfigs {
 	}
 	
 	public static void recipeConfig(Configuration config) {
-		changeHookRecipe = config.getBoolean("changeHookRecipe", "recipes", false, "Set this to true to change the Recipe for the iron Hook. => The recipe will change to TWO iron ingots and FOUR hooks.");
+		changeHookRecipe = config.getBoolean("changeHookRecipe", "recipes", false, "Set this to true, to change the recipe for the iron hook. => The recipe will change to TWO iron ingots and FOUR hooks.");
+		sneakClickHookRecipe = config.getBoolean("sneakClickHookRecipe", "recipes", false, "Set this to true, to enable the 'Sneak + Right Click' Recipe for the iron hook");
 	}
 
 }
