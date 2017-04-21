@@ -27,4 +27,17 @@ public class BlockUtils {
 		return world.getBlockState(pos).getBlock() instanceof BlockTank;
 	}
 	
+	public static boolean checkNeighborBlocks(World world, BlockPos pos) {
+		if (BlockUtils.isTank_Water(world, new BlockPos(pos.getX() - 1, pos.getY(), pos.getZ()))) {
+			return true;
+		} else if (BlockUtils.isTank_Water(world, new BlockPos(pos.getX() + 1, pos.getY(), pos.getZ()))) {
+			return true;
+		} else if (BlockUtils.isTank_Water(world, new BlockPos(pos.getX(), pos.getY(), pos.getZ() - 1))) {
+			return true;
+		} else if (BlockUtils.isTank_Water(world, new BlockPos(pos.getX(), pos.getY(), pos.getZ() + 1))) {
+			return true;
+		}
+		return false;
+	}
+	
 }

@@ -24,7 +24,7 @@ public class LivingFish {
 	
     public static final String MODID = "livingfish";
     public static final String NAME = "LivingFish";
-    public static final String VERSION = "V1";
+    public static final String VERSION = "V2";
     
     @Instance(MODID)
     public static LivingFish instance = new LivingFish();

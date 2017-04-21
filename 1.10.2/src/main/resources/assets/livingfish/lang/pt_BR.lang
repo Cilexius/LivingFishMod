@@ -1,5 +1,5 @@
 ﻿//CreativeTab
-itemGroup.fish=Living Fish Tab
+itemGroup.fish=Aba do Living Fish
 
 
 //items
@@ -7,16 +7,16 @@ item.fish_bucket_cod.name=Balde com Peixe
 item.fish_bucket_salmon.name=Balde com Salmão
 item.fish_bucket_clownfish.name=Balde com Peixe-Palhaço
 item.fish_bucket_pufferfish.name=Balde com Baiacu
-livingfish.childbucket=Baby Fish
+livingfish.childbucket=Peixe Filhote
 
 item.fishbones.name=Ossos de Peixe
 
 item.ironhook.name=Anzol de Ferro
 
 item.fishingrod.name=Vara de Pescar
-livingfish.fishingrod.sneakrightclick=Sneak + Right Click to set Bait
-livingfish.fishingrod.needsbait=Needs Bait in second hand to work
-livingfish.fishingrod.hasbait=Has Bait
+livingfish.fishingrod.sneakrightclick=Esgueirar + Click Direito para colocar a Isca
+livingfish.fishingrod.needsbait=Necessita de Isca na segunda mão para funcionar
+livingfish.fishingrod.hasbait=Tem Isca
 
 
 //blocks

@@ -3,7 +3,7 @@
   "modid": "livingfish",
   "name": "Living Fish",
   "description": "Adds the Minecraft fish as living entities to catch and breed.",
-  "version": "V1",
+  "version": "V2",
   "mcversion": "1.10.2",
   "url": "https://minecraft.curseforge.com/projects/living-fish",
   "authorList": ["zero4q", "BunnYcilla4q"],
