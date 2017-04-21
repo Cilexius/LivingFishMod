@@ -1,21 +1,19 @@
-﻿
 //CreativeTab
 itemGroup.fish=Living Fish Tab
 
 
 //items
-item.fish_bucket_cod.name=Eimer mit Dorsch
+item.fish_bucket_cod.name=Eimer mit Kabeljau
 item.fish_bucket_salmon.name=Eimer mit Lachs
-item.fish_bucket_clownfish.name=Eimer mit Clown Fisch
-item.fish_bucket_pufferfish.name=Eimer mit Kugel Fisch
-item.fish_bucket_pufferfish.name=Bucket with Puffer Fish
+item.fish_bucket_clownfish.name=Eimer mit Clownfisch
+item.fish_bucket_pufferfish.name=Eimer mit Kugelfisch
 livingfish.childbucket=Babyfisch
 
-item.fishbones.name=Fisch Gräten
+item.fishbones.name=Fischgräten
 item.ironhook.name=Angelhaken
 
 item.fishingrod.name=Angel
-livingfish.fishingrod.sneakrightclick=Umschalt + Rechtsklick um Köder aufzusetzen 
+livingfish.fishingrod.sneakrightclick=Umschalt + Rechtsklick, um Köder aufzusetzen 
 livingfish.fishingrod.needsbait=Braucht Köder in der Zweithand
 livingfish.fishingrod.hasbait=Hat Köder
 
@@ -26,8 +24,7 @@ tile.tank_water.name=Aquarium
 
 
 //entities
-entity.livingfish.cod.name=Dorsch
+entity.livingfish.cod.name=Kabeljau
 entity.livingfish.salmon.name=Lachs
-entity.livingfish.clownfish.name=Clown Fisch
-entity.livingfish.pufferfish.name=Kugel Fisch
-
+entity.livingfish.clownfish.name=Clownfisch
+entity.livingfish.pufferfish.name=Kugelfisch
