@@ -10,10 +10,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModCrafting {
 	
-	public void register() {		
+	public void register() {
+		
+    	this.hookRecipes();
+    	
 		//Shapeless
     	GameRegistry.addShapelessRecipe(new ItemStack(Items.DYE, 1, 15), ModItems.fishbones);
-    	this.hookRecipe();
     	GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.tank, 1), new ItemStack(Blocks.GLASS));
     	GameRegistry.addShapelessRecipe(new ItemStack(ModBlocks.tank_water, 1), new ItemStack(ModBlocks.tank), Items.WATER_BUCKET);
 
@@ -26,11 +28,19 @@ public class ModCrafting {
 		
 	}
 	
-	public void hookRecipe() {
-		if (ModConfigs.changeHookRecipe) {
-	    	GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ironhook, 4), Items.IRON_INGOT, Items.IRON_INGOT);
-		} else {
+	public void hookRecipes() {
+		if (ModConfigs.oneIngotHookRecipe) {
 	    	GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ironhook, 2), Items.IRON_INGOT);
+		}
+		if (ModConfigs.twoIngotsHookRecipe) {
+	    	GameRegistry.addShapelessRecipe(new ItemStack(ModItems.ironhook, 4), Items.IRON_INGOT, Items.IRON_INGOT);
+		}
+		if (ModConfigs.hookShapedHookRecipe) {
+			GameRegistry.addShapedRecipe(new ItemStack(ModItems.ironhook, 8), new Object[] {
+					"I  ",
+					"I I",
+					" I ", 'I', new ItemStack(Items.IRON_INGOT)
+			});
 		}
 	}
 	
